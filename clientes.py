@@ -1,27 +1,70 @@
+import sqlite3
+
 class Cliente:
     def __init__(self, clave, nombre, direccion, correo_electronico, telefono):
-        # Inicializa los atributos del cliente
-        self.datos = {
-            'clave': clave,
-            'nombre': nombre,
-            'direccion': direccion,
-            'correo_electronico': correo_electronico,
-            'telefono': telefono
-        }
+        self.clave = clave
+        self.nombre = nombre
+        self.direccion = direccion
+        self.correo_electronico = correo_electronico
+        self.telefono = telefono
 
-    def mostrar_datos(self):
-        # Muestra los datos del cliente
-        for clave, valor in self.datos.items():
-            print(f"{clave.capitalize()}: {valor}")
+    @staticmethod
+    def crear_tabla():
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS clientes (
+                    clave TEXT PRIMARY KEY,
+                    nombre TEXT,
+                    direccion TEXT,
+                    correo_electronico TEXT,
+                    telefono TEXT
+                )
+            ''')
+            conn.commit()
 
-    def agregar_cliente(self, clave, nombre, direccion, correo_electronico, telefono):
-        # Función para agregar un cliente
-        pass
+    def guardar(self):
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO clientes (clave, nombre, direccion, correo_electronico, telefono)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (self.clave, self.nombre, self.direccion, self.correo_electronico, self.telefono))
+            conn.commit()
 
-    def eliminar_cliente(self, clave):
-        # Función para eliminar un cliente
-        pass
+    @staticmethod
+    def eliminar_cliente(clave):
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM clientes WHERE clave = ?', (clave,))
+            conn.commit()
 
-    def actualizar_cliente(self, clave, nombre=None, direccion=None, correo_electronico=None, telefono=None):
-        # Función para actualizar los datos de un cliente
-        pass
+    @staticmethod
+    def actualizar_cliente(clave, nombre=None, direccion=None, correo_electronico=None, telefono=None):
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            if nombre:
+                cursor.execute('UPDATE clientes SET nombre = ? WHERE clave = ?', (nombre, clave))
+            if direccion:
+                cursor.execute('UPDATE clientes SET direccion = ? WHERE clave = ?', (direccion, clave))
+            if correo_electronico:
+                cursor.execute('UPDATE clientes SET correo_electronico = ? WHERE clave = ?', (correo_electronico, clave))
+            if telefono:
+                cursor.execute('UPDATE clientes SET telefono = ? WHERE clave = ?', (telefono, clave))
+            conn.commit()
+
+    @staticmethod
+    def mostrar_datos(clave):
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM clientes WHERE clave = ?', (clave,))
+            cliente = cursor.fetchone()
+            if cliente:
+                print(f"Clave: {cliente[0]}")
+                print(f"Nombre: {cliente[1]}")
+                print(f"Dirección: {cliente[2]}")
+                print(f"Correo Electrónico: {cliente[3]}")
+                print(f"Teléfono: {cliente[4]}")
+            else:
+                print("El cliente no existe.")
+
