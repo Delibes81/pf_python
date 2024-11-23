@@ -27,7 +27,7 @@ def seleccionar_opcion():
         if opcion == 'a':
             # Si el usuario selecciona 'a', se calcula el costo del producto
             print("Ha seleccionado Pedidos.")
-            mostrar_menu()
+            mostrar_menu_pedidos()
             #calcular_costo_producto()
         elif opcion == 'b':
             # Si el usuario selecciona 'b', se muestra un mensaje para Clientes
@@ -36,6 +36,7 @@ def seleccionar_opcion():
         elif opcion == 'c':
             # Si el usuario selecciona 'c', se muestra un mensaje para Menú
             print("Ha seleccionado Menú.")
+            mostrar_menu_producto()
         elif opcion == 'd':
             # Si el usuario selecciona 'd', se sale del programa
             print("Saliendo del programa.")
@@ -88,7 +89,7 @@ def mostrar_clientes():
                 break
             else:
                 print("Opción no válida. Intente de nuevo.")
-def mostrar_menu():
+def mostrar_menu_pedidos():
         # Esta función muestra las opciones para Pedidos
         while True:
             print("\nMenú de Pedidos")
@@ -112,7 +113,7 @@ def mostrar_menu():
                 break
             else:
                 print("Opción no válida. Intente de nuevo.")
-def mostrar_menu():
+def mostrar_menu_producto():
         while True:
             print("\nMenú de Productos")
             print("1. Agregar Producto")
