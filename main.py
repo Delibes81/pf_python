@@ -89,6 +89,7 @@ def mostrar_clientes():
             else:
                 print("Opción no válida. Intente de nuevo.")
 def mostrar_menu():
+        # Esta función muestra las opciones para Pedidos
         while True:
             print("\nMenú de Pedidos")
             print("1. Crear Pedido")
@@ -111,6 +112,34 @@ def mostrar_menu():
                 break
             else:
                 print("Opción no válida. Intente de nuevo.")
+def mostrar_menu():
+        while True:
+            print("\nMenú de Productos")
+            print("1. Agregar Producto")
+            print("2. Eliminar Producto")
+            print("3. Actualizar Producto")
+            print("4. Mostrar Productos")
+            print("5. Salir")
+            opcion = input("Seleccione una opción: ")
 
+            if opcion == '1':
+                clave = input("Clave: ")
+                nombre = input("Nombre: ")
+                precio = float(input("Precio: "))
+                Menu.agregar_producto(clave, nombre, precio)
+            elif opcion == '2':
+                clave = input("Clave: ")
+                Menu.eliminar_producto(clave)
+            elif opcion == '3':
+                clave = input("Clave: ")
+                nombre = input("Nombre (dejar en blanco para no cambiar): ")
+                precio = input("Precio (dejar en blanco para no cambiar): ")
+                Menu.actualizar_producto(clave, nombre or None, float(precio) if precio else None)
+            elif opcion == '4':
+                Menu.mostrar_productos()
+            elif opcion == '5':
+                break
+            else:
+                print("Opción no válida. Intente de nuevo.")
 # Llamada a la función para iniciar el programa
 seleccionar_opcion()
