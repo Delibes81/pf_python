@@ -8,22 +8,9 @@ class Cliente:
         self.correo_electronico = correo_electronico
         self.telefono = telefono
 
-    @staticmethod
-    def crear_tabla():
-        with sqlite3.connect('happyburger.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS clientes (
-                    clave TEXT PRIMARY KEY,
-                    nombre TEXT,
-                    direccion TEXT,
-                    correo_electronico TEXT,
-                    telefono TEXT
-                )
-            ''')
-            conn.commit()
 
     def guardar(self):
+        # Guarda los datos del cliente en la base de datos
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -34,6 +21,7 @@ class Cliente:
 
     @staticmethod
     def eliminar_cliente(clave):
+        # Elimina un cliente de la base de datos
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
             cursor.execute('DELETE FROM clientes WHERE clave = ?', (clave,))
@@ -41,6 +29,7 @@ class Cliente:
 
     @staticmethod
     def actualizar_cliente(clave, nombre=None, direccion=None, correo_electronico=None, telefono=None):
+        # Actualiza los datos de un cliente en la base de datos
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
             if nombre:
@@ -55,6 +44,7 @@ class Cliente:
 
     @staticmethod
     def mostrar_datos(clave):
+        # Muestra los datos de un cliente
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
             cursor.execute('SELECT * FROM clientes WHERE clave = ?', (clave,))
@@ -67,4 +57,4 @@ class Cliente:
                 print(f"Teléfono: {cliente[4]}")
             else:
                 print("El cliente no existe.")
-
+                

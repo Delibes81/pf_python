@@ -1,4 +1,5 @@
-from clientes import Cliente
+from modules.__init__ import Cliente, Menu, Pedido
+
 
 def imprimir_menu():
     # Esta función imprime el menú de opciones
@@ -26,7 +27,8 @@ def seleccionar_opcion():
         if opcion == 'a':
             # Si el usuario selecciona 'a', se calcula el costo del producto
             print("Ha seleccionado Pedidos.")
-            calcular_costo_producto()
+            mostrar_menu()
+            #calcular_costo_producto()
         elif opcion == 'b':
             # Si el usuario selecciona 'b', se muestra un mensaje para Clientes
             print("Ha seleccionado Clientes.")
@@ -83,6 +85,29 @@ def mostrar_clientes():
                 Cliente.mostrar_datos(clave)
             elif opcion == '5':
                 # Si el usuario selecciona '5', se sale de la función
+                break
+            else:
+                print("Opción no válida. Intente de nuevo.")
+def mostrar_menu():
+        while True:
+            print("\nMenú de Pedidos")
+            print("1. Crear Pedido")
+            print("2. Cancelar Pedido")
+            print("3. Mostrar Pedidos")
+            print("4. Salir")
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == '1':
+                cliente = input("Cliente: ")
+                producto = input("Producto: ")
+                precio = float(input("Precio: "))
+                Pedido.crear_pedido(cliente, producto, precio)
+            elif opcion == '2':
+                pedido_id = int(input("ID del Pedido: "))
+                Pedido.cancelar_pedido(pedido_id)
+            elif opcion == '3':
+                Pedido.mostrar_pedidos()
+            elif opcion == '4':
                 break
             else:
                 print("Opción no válida. Intente de nuevo.")
