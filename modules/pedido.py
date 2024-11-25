@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import time
 
 class Pedido:
     @staticmethod
@@ -33,17 +34,29 @@ class Pedido:
             print("Pedido creado exitosamente.")
 
              # Simular la impresión de un ticket
+            timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
             ticket_content = f"""
             Ticket de Pedido
             ----------------
             Cliente: {cliente_nombre}
             Producto: {producto_nombre}
             Precio: {precio}
+            Hora: {timestamp}
             """
-            ticket_path = os.path.join(os.getcwd(), f'ticket_{cliente_id}_{producto_id}.txt')
+            # Crear la carpeta 'tickets' si no existe
+            ticket_dir = os.path.join(os.getcwd(), 'tickets')
+            if not os.path.exists(ticket_dir):
+                os.makedirs(ticket_dir)
+
+            # Obtener el número consecutivo para el nombre del archivo
+            existing_files = [f for f in os.listdir(ticket_dir) if f.startswith(f'ticket_{cliente_id}_{producto_id}_') and f.endswith('.txt')]
+            consecutive_number = len(existing_files) + 1
+
+            ticket_path = os.path.join(ticket_dir, f'ticket_{cliente_id}_{producto_id}_{consecutive_number}.txt')
             with open(ticket_path, 'w') as ticket_file:
                 ticket_file.write(ticket_content)
             print(f"Ticket generado: {ticket_path}")
+            
 
 
     @staticmethod

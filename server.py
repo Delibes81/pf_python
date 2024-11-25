@@ -4,10 +4,14 @@ import sqlite3
 app = Flask(__name__)
 
 def obtener_datos(query, params=()):
-    with sqlite3.connect('happyburger.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, params)
-        return cursor.fetchall()
+    conn = sqlite3.connect('happyburger.db')
+    cursor = conn.cursor()
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]
+    conn.close()
+    datos = [dict(zip(column_names, row)) for row in rows]
+    return datos
 
 @app.route('/')
 def index():
@@ -38,9 +42,9 @@ def pedidos():
 
 @app.route('/menu')
 def menu():
-    query = 'SELECT * FROM productos'
+    query = 'SELECT * FROM menu'
     datos = obtener_datos(query)
-    return render_template('menu.html', productos=datos)
+    return render_template('menu.html', menu=datos)
 
 if __name__ == '__main__':
     app.run(debug=True)

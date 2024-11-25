@@ -1,0 +1,9 @@
+
+            Ticket de Pedido
+            ----------------
+            Cliente: Arturo Tirado
+            Producto: Hamburguesa doble
+            Precio: 140.0
+            Hora: 1732518177
+
+            

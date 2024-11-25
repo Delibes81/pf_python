@@ -1,0 +1,7 @@
+
+            Ticket de Pedido
+            ----------------
+            Cliente: Alejandro Dumas
+            Producto: Hamburguesa con queso
+            Precio: 130.0
+            

@@ -1,0 +1,8 @@
+
+            Ticket de Pedido
+            ----------------
+            Cliente: Pedro Perez
+            Producto: Hamburguesa con queso
+            Precio: 130.0
+            Hora: 2024-11-25 01:16:37
+            

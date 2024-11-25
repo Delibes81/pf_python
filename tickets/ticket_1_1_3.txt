@@ -4,4 +4,5 @@
             Cliente: Arturo Tirado
             Producto: Hamburguesa doble
             Precio: 140.0
+            Hora: 2024-11-25 01:16:23
             

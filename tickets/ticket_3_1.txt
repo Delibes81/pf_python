@@ -1,0 +1,7 @@
+
+            Ticket de Pedido
+            ----------------
+            Cliente: Pedro Perez
+            Producto: Hamburguesa doble
+            Precio: 140.0
+            
