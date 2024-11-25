@@ -1,34 +1,57 @@
 import sqlite3
+import os
+
 class Pedido:
-    def __init__(self):
-        # Inicializa el diccionario de pedidos
-        self.pedidos = {}
-
-    def mostrar_pedidos():
-        # Muestra los pedidos
-        with sqlite3.connect('happyburger.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute('SELECT * FROM pedidos')
-            pedidos = cursor.fetchall()
-            for pedido in pedidos:
-                print(f"Pedido ID: {pedido[0]}, Cliente: {pedido[1]}, Producto: {pedido[2]}, Precio: ${pedido[3]:.2f}")
-
-    def crear_pedido(cliente, producto, precio):
+    @staticmethod
+    def crear_pedido(cliente_id, producto_id):
         # Crea un pedido
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
+            
+            # Obtener el nombre del cliente
+            cursor.execute('SELECT nombre FROM clientes WHERE clave = ?', (cliente_id,))
+            cliente = cursor.fetchone()
+            if not cliente:
+                print("Cliente no encontrado.")
+                return
+            cliente_nombre = cliente[0]
+            
+            # Obtener el nombre y precio del producto
+            cursor.execute('SELECT nombre, precio FROM menu WHERE clave = ?', (producto_id,))
+            producto = cursor.fetchone()
+            if not producto:
+                print("Producto no encontrado.")
+                return
+            producto_nombre, precio = producto
+            
+            # Insertar el registro en la tabla pedidos
             cursor.execute('''
                 INSERT INTO pedidos (cliente, producto, precio)
                 VALUES (?, ?, ?)
-            ''', (cliente, producto, precio))
+            ''', (cliente_nombre, producto_nombre, precio))
             conn.commit()
             print("Pedido creado exitosamente.")
 
+             # Simular la impresión de un ticket
+            ticket_content = f"""
+            Ticket de Pedido
+            ----------------
+            Cliente: {cliente_nombre}
+            Producto: {producto_nombre}
+            Precio: {precio}
+            """
+            ticket_path = os.path.join(os.getcwd(), f'ticket_{cliente_id}_{producto_id}.txt')
+            with open(ticket_path, 'w') as ticket_file:
+                ticket_file.write(ticket_content)
+            print(f"Ticket generado: {ticket_path}")
+
+
+    @staticmethod
     def cancelar_pedido(pedido_id):
         # Cancela un pedido
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
-            cursor.execute('DELETE FROM pedidos WHERE pedido_id = ?', (pedido_id,))
+            cursor.execute('DELETE FROM pedidos WHERE pedido = ?', (pedido_id,))
             conn.commit()
             print("Pedido cancelado exitosamente.")
 

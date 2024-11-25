@@ -90,30 +90,27 @@ def mostrar_clientes():
             else:
                 print("Opción no válida. Intente de nuevo.")
 def mostrar_menu_pedidos():
-        # Esta función muestra las opciones para Pedidos
-        while True:
-            print("\nMenú de Pedidos")
-            print("1. Crear Pedido")
-            print("2. Cancelar Pedido")
-            print("3. Mostrar Pedidos")
-            print("4. Salir")
-            opcion = input("Seleccione una opción: ")
+    # Esta función muestra las opciones para Pedidos
+    while True:
+        print("\nMenú de Pedidos")
+        print("1. Crear Pedido")
+        print("2. Cancelar Pedido")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ")
 
-            if opcion == '1':
-                cliente = input("Cliente: ")
-                producto = input("Producto: ")
-                precio = float(input("Precio: "))
-                Pedido.crear_pedido(cliente, producto, precio)
-            elif opcion == '2':
-                pedido_id = int(input("ID del Pedido: "))
-                Pedido.cancelar_pedido(pedido_id)
-            elif opcion == '3':
-                Pedido.mostrar_pedidos()
-            elif opcion == '4':
-                break
-            else:
-                print("Opción no válida. Intente de nuevo.")
+        if opcion == '1':
+            cliente_id = input("ID del Cliente: ")
+            producto_id = input("ID del Producto: ")
+            Pedido.crear_pedido(cliente_id, producto_id)
+        elif opcion == '2':
+            pedido_id = input("ID del Pedido: ")
+            Pedido.cancelar_pedido(pedido_id)
+        elif opcion == '3':
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
 def mostrar_menu_producto():
+        # Esta función muestra las opciones para Productos
         while True:
             print("\nMenú de Productos")
             print("1. Agregar Producto")

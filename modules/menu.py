@@ -1,45 +1,59 @@
 import sqlite3
+
 class Menu:
-    def __init__(self):
-        # Inicializa el diccionario de productos
-        self.productos = {}
-
-    def mostrar_productos(self):
-        # Muestra los productos del menú
-        with sqlite3.connect('happyburger.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute('SELECT * FROM productos')
-            productos = cursor.fetchall()
-            for producto in productos:
-                print(f"Clave: {producto[0]}, Nombre: {producto[1]}, Precio: ${producto[2]:.2f}")
-
-    def agregar_producto(self, clave, nombre, precio):
+    @staticmethod
+    def agregar_producto(clave, nombre, precio):
         # Función para agregar un producto
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT INTO productos (clave, nombre, precio)
+                INSERT INTO menu (clave, nombre, precio)
                 VALUES (?, ?, ?)
             ''', (clave, nombre, precio))
             conn.commit()
             print("Producto agregado exitosamente.")
 
-
-    def eliminar_producto(self, clave):
+    @staticmethod
+    def eliminar_producto(clave):
         # Función para eliminar un producto
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
-            cursor.execute('DELETE FROM productos WHERE clave = ?', (clave,))
+            cursor.execute('DELETE FROM menu WHERE clave = ?', (clave,))
             conn.commit()
             print("Producto eliminado exitosamente.")
 
-    def actualizar_producto(self, clave, nombre=None, precio=None):
+    @staticmethod
+    def actualizar_producto(clave, nombre=None, precio=None):
         # Función para actualizar los datos de un producto
         with sqlite3.connect('happyburger.db') as conn:
             cursor = conn.cursor()
-            if nombre:
-                cursor.execute('UPDATE productos SET nombre = ? WHERE clave = ?', (nombre, clave))
-            if precio:
-                cursor.execute('UPDATE productos SET precio = ? WHERE clave = ?', (precio, clave))
+            if nombre and precio:
+                cursor.execute('''
+                    UPDATE menu
+                    SET nombre = ?, precio = ?
+                    WHERE clave = ?
+                ''', (nombre, precio, clave))
+            elif nombre:
+                cursor.execute('''
+                    UPDATE menu
+                    SET nombre = ?
+                    WHERE clave = ?
+                ''', (nombre, clave))
+            elif precio:
+                cursor.execute('''
+                    UPDATE menu
+                    SET precio = ?
+                    WHERE clave = ?
+                ''', (precio, clave))
             conn.commit()
             print("Producto actualizado exitosamente.")
+
+    @staticmethod
+    def mostrar_productos():
+        # Función para mostrar todos los productos
+        with sqlite3.connect('happyburger.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM menu')
+            productos = cursor.fetchall()
+            for producto in productos:
+                print(producto)
